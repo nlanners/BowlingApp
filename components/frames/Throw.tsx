@@ -1,31 +1,26 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import React, { useRef, useState } from 'react';
-import { BowlingKeyboard } from '../BowlingKeyboard';
+import React from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
-export const Throw = () => {
-  const [score, setScore] = useState<string | null>(null);
-  const textInputRef = useRef(null);
+const windowWidth = Dimensions.get('window').width;
+
+type Props = { score: string };
+
+export const Throw = ({ score }: Props) => {
   return (
-    <>
-      <TextInput
-        ref={textInputRef}
-        style={styles.input}
-        keyboardType='numeric'
-        value={score?.toString()}
-      />
-      <BowlingKeyboard
-        textInputRef={textInputRef}
-        onKeyPress={(v) => setScore(v)}
-      />
-    </>
+    <View style={styles.input}>
+      <Text>{score}</Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: 'black',
-    width: 50,
-    height: 50,
+    width: windowWidth / 20,
+    height: windowWidth / 20,
   },
 });

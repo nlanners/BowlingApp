@@ -1,84 +1,59 @@
-import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
-import { Keyboard } from 'react-native-ui-lib';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-type Props = {
-  onKeyPress: (value: string) => void;
-  textInputRef: React.RefObject<any>;
-};
-
-const KeyboardAccessoryView = Keyboard.KeyboardAccessoryView;
-
-export const BowlingKeyboard = ({ onKeyPress, textInputRef }: Props) => {
-  const keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'X', '/'];
-
-  const renderKeyboardAccessoryViewContent = () => {
-    return (
-      <View style={styles.container}>
-        {keys.map((s, i) => (
-          <TouchableOpacity
-            key={i}
-            onPress={() => onKeyPress(s)}
-            style={styles.button}>
-            <Text>{s}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
-  };
+export const BowlingKeyboard = () => {
+  const keyRows = [
+    ['1', '2', '3'],
+    ['4', '5', '6'],
+    ['7', '8', '9'],
+    ['0', 'X', '/'],
+  ];
 
   return (
-    <KeyboardAccessoryView
-      renderContent={renderKeyboardAccessoryViewContent}
-      scrollBehavior={KeyboardAccessoryView.scrollBehaviors.FIXED_OFFSET}
-      kbInputRef={textInputRef}
-      kbComponent='BowlingKeyboard'
-    />
+    <View style={styles.container}>
+      {keyRows.map((row, index) => (
+        <View key={index} style={styles.row}>
+          {row.map((key) => (
+            <TouchableHighlight
+              style={styles.keyWrapper}
+              onPress={() => console.log(key)}
+              key={key}>
+              <View style={styles.key}>
+                <Text style={styles.keyText}>{key}</Text>
+              </View>
+            </TouchableHighlight>
+          ))}
+        </View>
+      ))}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
+    gap: 8,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  row: {
+    display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    backgroundColor: '#EDEDED',
-    paddingVertical: 5,
-    marginBottom: '30%',
-    justifyContent: 'center',
+    gap: 8,
   },
-  button: {
-    width: '10%',
-    height: 50,
-    margin: 5,
-    borderRadius: 10,
-    backgroundColor: '#F7F7F7',
-    justifyContent: 'center',
-    alignItems: 'center',
+  keyWrapper: {
+    borderRadius: 25,
   },
-  toggleButton: {
-    width: '10%',
-    height: 50,
-    margin: 5,
-    borderRadius: 10,
-    backgroundColor: '#F7F7F7',
+  key: {
+    width: 75,
+    height: 75,
+    borderRadius: 25,
+    backgroundColor: 'lightgray',
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  inputAccessoryView: {
-    backgroundColor: '#2A2A2A',
-    height: 48,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderTopWidth: 0.8,
-    borderColor: '#c4c4c4',
-  },
-  inputAccessoryButton: {
-    backgroundColor: 'gray',
-    height: 35,
-    width: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
-    borderRadius: 5,
+  keyText: {
+    fontSize: 24,
   },
 });
